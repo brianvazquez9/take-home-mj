@@ -20,7 +20,7 @@ function App() {
         else {
             let sumOfCals = 0;
             foodsEaten.forEach(food => {
-                sumOfCals += food.name
+                sumOfCals += food.calories
             })
         updateTotalCals(sumOfCals);
         }

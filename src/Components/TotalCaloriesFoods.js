@@ -7,7 +7,8 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-import { Typography } from '@mui/material';
+import { Typography, Grid, Button } from '@mui/material';
+import EditIcon from '@mui/icons-material/Edit';
 
 
 function TotalCaloriesFoods (props) {
@@ -22,16 +23,17 @@ function TotalCaloriesFoods (props) {
 
         const foodsAndCals = [];
         listOfFoods.forEach(food => {
-            foodsAndCals.push({food})
+            const { name, calories } = food;
+            foodsAndCals.push({name, calories})
         })
         return foodsAndCals;
     }
 
-    const rows = createData(foodsEaten.foods);
+    const rows = createData(foodsEaten);
 
-    useEffect(() => {
-
-    }, [foodsEaten])
+    const editData = (item) => {
+        console.log('the full item', item.name)
+    }
 
 
     return (
@@ -46,7 +48,9 @@ function TotalCaloriesFoods (props) {
             <TableHead>
             <TableRow>
                 <TableCell>Food/Meal</TableCell>
-                <TableCell align="right">Calories</TableCell>
+                <TableCell align="left">Calories</TableCell>
+                <TableCell align="right">
+                </TableCell>
             </TableRow>
             </TableHead>
             <TableBody>
@@ -58,10 +62,14 @@ function TotalCaloriesFoods (props) {
                 <TableCell component="th" scope="row">
                     {row.name}
                 </TableCell>
-                <TableCell align="right">{row.calories}</TableCell>
-                <TableCell align="right">{row.fat}</TableCell>
-                <TableCell align="right">{row.carbs}</TableCell>
-                <TableCell align="right">{row.protein}</TableCell>
+                <TableCell align="left">{row.calories}</TableCell>
+                <Button onClick={() => editData(row)} size='small' sx={{ '&:last-child td, &:last-child th': { border: 0 }, position: 'relative' }}>
+                <TableCell align='right'>
+                    <Grid item xs={6} align='right'>
+                        <EditIcon />
+                    </Grid>
+                </TableCell>
+                </Button>
                 </TableRow>
             ))}
             </TableBody>

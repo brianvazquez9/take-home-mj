@@ -1,7 +1,6 @@
 import React, { useContext } from 'react';
 import FoodsEatenContext from './FoodsEatenContext';
-import { TextField , Box, CssBaseline, Container, Typography, Button } from '@mui/material'
-
+import { TextField , CssBaseline, Container, Typography, Button } from '@mui/material';
 
 function UpdateAddMeal () {
 
@@ -11,15 +10,14 @@ function UpdateAddMeal () {
         const name = document.getElementById('outlined-name').value;
         let calories = parseInt(document.getElementById('outlined-calories').value);
 
-        if (!name || !calories) {
-            alert('Please enter a name of the food and its calories');
+        if (!name || !calories || typeof calories !== 'number') {
+            alert('Please enter a valid name of your meal and its calories');
             return;
         }
-        console.log('calories-', typeof calories === 'number')
 
-        updateFoods(prevFoods => [...prevFoods, { name: calories }]);
+        updateFoods(prevFoods => [...prevFoods, { name : name, calories: calories }]);
 
-        console.log('updated foods in add meal cb in updateaddmeal component');
+        console.log('FOODS -', foodsEaten);
     }
 
 
