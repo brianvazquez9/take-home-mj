@@ -6,13 +6,11 @@ import Toolbar from '@mui/material/Toolbar';
 import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
 import FoodBankIcon from '@mui/icons-material/FoodBank';
-import CaloriesContext from './CaloriesContext';
+import FoodsEatenContext from './FoodsEatenContext';
 
 function Banner () {
 
-    const { caloriesInfo, setCalorieInfo} = useContext(CaloriesContext);
-
-    //at button add on click that will set calorie info of total cals to 0
+    const { updateFoods } = useContext(FoodsEatenContext);
 
     return (
         <Box sx={{ flexGrow: 1 }}>
@@ -30,7 +28,7 @@ function Banner () {
           <Typography variant="h4" component="div" sx={{ flexGrow: 1 }} align='center'>
             Calorie Counter
           </Typography>
-          <Button color='inherit' variant='outlined'>Clear All</Button>
+          <Button color='inherit' variant='outlined' onClick={() => updateFoods([])}>Clear All</Button>
         </Toolbar>
       </AppBar>
     </Box>

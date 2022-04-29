@@ -1,5 +1,5 @@
 import React, { useContext, useEffect } from 'react';
-import CaloriesContext from './CaloriesContext';
+import FoodsEatenContext from './FoodsEatenContext';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -10,13 +10,15 @@ import Paper from '@mui/material/Paper';
 import { Typography } from '@mui/material';
 
 
-function TotalCaloriesFoods () {
+function TotalCaloriesFoods (props) {
 
-    const { caloriesInfo, setCaloriesInfo} = useContext(CaloriesContext);
+    const { foodsEaten, updateFoodsEaten} = useContext(FoodsEatenContext);
 
     //may be redundant but come back and remove if need be later
     function createData(listOfFoods) {
         //takes list of foods and cals and places them in rows for the table
+
+        if (!listOfFoods) return [];
 
         const foodsAndCals = [];
         listOfFoods.forEach(food => {
@@ -25,18 +27,18 @@ function TotalCaloriesFoods () {
         return foodsAndCals;
     }
 
-    const rows = createData(caloriesInfo.foods);
+    const rows = createData(foodsEaten.foods);
 
     useEffect(() => {
 
-    }, [caloriesInfo])
+    }, [foodsEaten])
 
 
     return (
         <div>
             <div>
             <Typography align='center' variant='h3' padding='2rem'>
-                Total Calories: {caloriesInfo.totalCalories}
+                Total Calories: {props.totalCals}
             </Typography>
             </div>
             <TableContainer component={Paper}>

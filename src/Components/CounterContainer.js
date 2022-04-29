@@ -2,12 +2,12 @@ import React from 'react';
 import UpdateAddMeal from './UpdateAddMeal';
 import TotalCaloriesFoods from './TotalCaloriesFoods';
 
-function CounterContainer () {
+function CounterContainer (props) {
 
     return (
         <div>
             <UpdateAddMeal />
-            <TotalCaloriesFoods />
+            <TotalCaloriesFoods totalCals={props.totalCals}/>
         </div>
         
     )
