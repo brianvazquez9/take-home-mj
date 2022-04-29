@@ -3,12 +3,12 @@ import CaloriesContext from './CaloriesContext';
 
 function UpdateAddMeal () {
 
-    const calories = useContext(CaloriesContext);
+    const { caloriesInfo, setCaloriesInfo} = useContext(CaloriesContext);
 
 
     return (
         <div>
-            <p>{calories}</p>
+            <p>{caloriesInfo.totalCalories}</p>
             <p>hi in UpdateAddMeal</p>
         </div>
     )

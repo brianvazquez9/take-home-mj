@@ -1,8 +1,5 @@
 import { createContext } from 'react';
 
-const CaloriesContext = createContext({
-    totalCalories: 0,
-    foods: []
-})
+const CaloriesContext = createContext()
 
 export default CaloriesContext;
