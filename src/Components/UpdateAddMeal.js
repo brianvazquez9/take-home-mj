@@ -5,6 +5,8 @@ import { TextField , CssBaseline, Container, Typography, Button } from '@mui/mat
 function UpdateAddMeal (props) {
 
     const { foodsEaten, updateFoods } = useContext(FoodsEatenContext);
+    const { editMode, wordToChange, toggleEditMode } = props;
+
 
     //add meal will take the information the user provides and add it into the list of foods
     const addMeal = () => {
@@ -22,8 +24,6 @@ function UpdateAddMeal (props) {
     }
 
     // update meal func takes the name and calories from the wordToChange variable from the parent CounterContainer component and allows the user to edit the name/cals to replace what they originally had inserted it as once they hit the update button
-    const { editMode, wordToChange, toggleEditMode } = props;
-
     const updateMeal = () => {
         const index = foodsEaten.findIndex(object => { return wordToChange.name === object.name });
 
@@ -53,6 +53,7 @@ function UpdateAddMeal (props) {
 
     // this use effect will fire whenever editMode or wordToChange are updated and make the name and calories field fill with the name/cals of the meal that needs editing while also changing the add meal button to update/cancel and vice versa
     useEffect(() => {
+        console.log('in use effect of update add meal for button swap')
         if (editMode && foodsEaten.length) {
             updateAddMealButton(updateOrCancelButtons);
             document.getElementById('outlined-name').value = wordToChange.name
@@ -61,6 +62,7 @@ function UpdateAddMeal (props) {
         else if (!editMode) {
             updateAddMealButton(addMealButton);
         }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [editMode, wordToChange])
 
     return (
