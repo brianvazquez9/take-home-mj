@@ -14,7 +14,7 @@ function Banner () {
 
     return (
         <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="static">
+      <AppBar position="static" sx={{ pt: 0.5 }}>
         <Toolbar>
           <IconButton
             size="large"

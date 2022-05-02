@@ -14,7 +14,13 @@ import DeleteIcon from '@mui/icons-material/Delete';
 
 function TotalCaloriesFoods (props) {
 
-    const { foodsEaten, updateFoods} = useContext(FoodsEatenContext);
+    const { foodsEaten, updateFoods } = useContext(FoodsEatenContext);
+
+    const [rows, updateRows] = useState(createData(foodsEaten));
+
+    useEffect(() => {
+        updateRows(createData(foodsEaten));
+    }, [foodsEaten, props.editMode])
 
     function createData(listOfFoods) {
         //takes list of foods and cals and places them in rows for the table
@@ -29,10 +35,9 @@ function TotalCaloriesFoods (props) {
         return foodsAndCals;
     }
 
-    const [rows, updateRows] = useState(createData(foodsEaten));
-
     const editData = (item) => {
-        console.log('the full item', item.name, item.key)
+        const { key, name, calories } = item;
+        props.setWordChange({ key, name, calories });
     }
 
     const deleteData = (item) => {
@@ -54,12 +59,6 @@ function TotalCaloriesFoods (props) {
             })
         props.updateTotalCals(sumOfCals)
     }
-
-    useEffect(() => {
-        updateRows(createData(foodsEaten))
-    }, [foodsEaten])
-
-
 
     // useEffect(() => {
     //     updateTotalCals(totalCals);
