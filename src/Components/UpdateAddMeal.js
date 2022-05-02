@@ -6,7 +6,7 @@ function UpdateAddMeal (props) {
 
     const { foodsEaten, updateFoods } = useContext(FoodsEatenContext);
 
-
+    //add meal will take the information the user provides and add it into the list of foods
     const addMeal = () => {
         let name = document.getElementById('outlined-name').value;
         let calories = parseInt(document.getElementById('outlined-calories').value);
@@ -21,24 +21,23 @@ function UpdateAddMeal (props) {
         // document.getElementById('outlined-calories').value = '';
     }
 
+    // update meal func takes the name and calories from the wordToChange variable from the parent CounterContainer component and allows the user to edit the name/cals to replace what they originally had inserted it as once they hit the update button
     const { editMode, wordToChange, toggleEditMode } = props;
 
     const updateMeal = () => {
         const index = foodsEaten.findIndex(object => { return wordToChange.name === object.name });
-        console.log('the index of the key in the foods eaten list to be updated', index)
 
         const newName = document.getElementById('outlined-name').value;
         let newCalories = parseInt(document.getElementById('outlined-calories').value);
-        // console.log('GOT new NAME AND CALS: ', newName, newCalories, 'NOW double checking still have the state info of the key original name and cals that were stores: ', wordToChange.key, wordToChange.name, wordToChange.calories);
 
         foodsEaten[index] = { name: newName, calories: newCalories };
 
         const newFoodsEaten = foodsEaten;
-
         updateFoods(prevFoods => [...newFoodsEaten]);
         toggleEditMode(false);
     }
 
+    //the button(s) in this component will change based on whether or not edit mode is active, when it isn't- only add meal button will be displayed, but when it is, update and cancel buttons will be displayed and perform their appropriate actions
     const addMealButton = (
         <Button variant="contained" align='left' onClick={addMeal}>Add Meal</Button>
     )
@@ -52,6 +51,7 @@ function UpdateAddMeal (props) {
         </div>
     )
 
+    // this use effect will fire whenever editMode or wordToChange are updated and make the name and calories field fill with the name/cals of the meal that needs editing while also changing the add meal button to update/cancel and vice versa
     useEffect(() => {
         if (editMode && foodsEaten.length) {
             updateAddMealButton(updateOrCancelButtons);
@@ -62,7 +62,6 @@ function UpdateAddMeal (props) {
             updateAddMealButton(addMealButton);
         }
     }, [editMode, wordToChange])
-
 
     return (
         <div align='center'>
@@ -77,13 +76,11 @@ function UpdateAddMeal (props) {
                     id="outlined-name"
                     label="Name of Food"
                     sx={{ margin: '1rem', width: '25%'}}
-                    // value={name}
                 /> 
                 <TextField
                     id="outlined-calories"
                     label="Calories"
                     sx={{ margin: '1rem', width: '25%'}}
-                    // value={name}
                 /> 
                </div>
                 {addMealButtonShown}
@@ -91,7 +88,6 @@ function UpdateAddMeal (props) {
     </React.Fragment>
         </div>
     )
-
 }
 
 export default UpdateAddMeal;

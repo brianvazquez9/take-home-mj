@@ -2,15 +2,14 @@ import React, { useState, useEffect } from 'react';
 import Banner from './Banner';
 import CounterContainer from './CounterContainer';
 import FoodsEatenContext from './FoodsEatenContext';
+import TotalCaloriesContext from './TotalCaloriesContext';
 
 function App() {
-    //will be bale to store state and create contexts starting here
-    //state management should have object of foods and their calories
-        // plus total calories that will change each time the obj of foods is changed
 
     const [foodsEaten, updateFoods] = useState([]);
     const [totalCals, updateTotalCals] = useState(0);
 
+    //anytime list of foods is updated, total calories will update as well
     useEffect(() => {
         if (!foodsEaten) {
             updateTotalCals(0);
@@ -26,17 +25,13 @@ function App() {
         }
     }, [foodsEaten])
 
-    // useEffect(() => {
-    //     if (foodsEaten.length) {
-    //         updateTotalCals(totalCals);
-    //     }
-    // }, [totalCals, foodsEaten])
-
     return (
         <div>
             <FoodsEatenContext.Provider value={{ foodsEaten, updateFoods }}>
                 <Banner />
-                <CounterContainer totalCals={totalCals} updateTotalCals={updateTotalCals}/>
+            <TotalCaloriesContext.Provider value={{ totalCals, updateTotalCals }}>
+                <CounterContainer/>
+            </TotalCaloriesContext.Provider>
             </FoodsEatenContext.Provider>
         </div>
     )

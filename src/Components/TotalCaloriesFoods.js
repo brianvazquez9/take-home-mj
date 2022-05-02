@@ -1,5 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
 import FoodsEatenContext from './FoodsEatenContext';
+import TotalCaloriesContext from './TotalCaloriesContext';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -15,16 +16,17 @@ import DeleteIcon from '@mui/icons-material/Delete';
 function TotalCaloriesFoods (props) {
 
     const { foodsEaten, updateFoods } = useContext(FoodsEatenContext);
+    const { totalCals, updateTotalCals } = useContext(TotalCaloriesContext);
 
     const [rows, updateRows] = useState(createData(foodsEaten));
 
+    // each time foods eaten is edited or edit mode has been changed from true to false or vice versa, we need to update the rows and meals displayed
     useEffect(() => {
         updateRows(createData(foodsEaten));
     }, [foodsEaten, props.editMode])
 
+    //takes list of foods and cals and places them in rows for the table
     function createData(listOfFoods) {
-        //takes list of foods and cals and places them in rows for the table
-
         if (!listOfFoods) return [];
 
         const foodsAndCals = [];
@@ -35,6 +37,7 @@ function TotalCaloriesFoods (props) {
         return foodsAndCals;
     }
 
+    // edit data will allow us to send information from this child component to the parent of CounterContainer, where the parent can then send the information to its other child component UpdateAddMeal to be updated from there
     const editData = (item) => {
         const { key, name, calories } = item;
         props.setWordChange({ key, name, calories });
@@ -57,18 +60,14 @@ function TotalCaloriesFoods (props) {
             newFoods.forEach(food => {
                 sumOfCals += food.calories
             })
-        props.updateTotalCals(sumOfCals)
+        updateTotalCals(sumOfCals);
     }
-
-    // useEffect(() => {
-    //     updateTotalCals(totalCals);
-    // }, [totalCals, updateTotalCals, foodsEaten])
 
     return (
         <div>
             <div>
             <Typography align='center' variant='h3' padding='2rem'>
-                Total Calories: {props.totalCals}
+                Total Calories: {totalCals}
             </Typography>
             </div>
             <div position='absolute'>
