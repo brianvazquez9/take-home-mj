@@ -12,12 +12,14 @@ function App() {
     const [totalCals, updateTotalCals] = useState(0);
 
     useEffect(() => {
+        console.log('foodsEaten', foodsEaten)
         if (!foodsEaten) {
             updateTotalCals(0);
             return;
         }
 
         else {
+            console.log('entered else of use effect in app for update to foods eaten xoxo')
             let sumOfCals = 0;
             foodsEaten.forEach(food => {
                 sumOfCals += food.calories
@@ -26,11 +28,17 @@ function App() {
         }
     }, [foodsEaten])
 
+    // useEffect(() => {
+    //     if (foodsEaten.length) {
+    //         updateTotalCals(totalCals);
+    //     }
+    // }, [totalCals, foodsEaten])
+
     return (
         <div>
             <FoodsEatenContext.Provider value={{ foodsEaten, updateFoods }}>
                 <Banner />
-                <CounterContainer totalCals={totalCals}/>
+                <CounterContainer totalCals={totalCals} updateTotalCals={updateTotalCals}/>
             </FoodsEatenContext.Provider>
         </div>
     )

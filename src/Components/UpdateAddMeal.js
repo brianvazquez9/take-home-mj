@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import FoodsEatenContext from './FoodsEatenContext';
 import { TextField , CssBaseline, Container, Typography, Button } from '@mui/material';
 
@@ -16,9 +16,19 @@ function UpdateAddMeal () {
         }
 
         updateFoods(prevFoods => [...prevFoods, { name : name, calories: calories }]);
-
-        console.log('FOODS -', foodsEaten);
     }
+
+    const addMealButton = (
+        <Button variant="contained" align='left' onClick={addMeal}>Add Meal</Button>
+    )
+
+    const [addMealButtonShown, updateAddMealButton] = useState(addMealButton);
+
+    // useEffect(() => {
+    //     if (editMode) updateAddMealButton('')
+    //     else updateAddMealButton(addMealButton);
+    //     //so when BACK or SAVE/DONE is pressed in edit context - edit mode will go back to false and that will return add meal button
+    // }, [editMode])
 
 
     return (
@@ -43,7 +53,7 @@ function UpdateAddMeal () {
                     // value={name}
                 /> 
                </div>
-                <Button variant="contained" align='left' onClick={addMeal}>Add Meal</Button>
+                {addMealButtonShown}
             </Container>
     </React.Fragment>
         </div>

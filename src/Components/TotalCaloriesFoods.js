@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import FoodsEatenContext from './FoodsEatenContext';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -8,14 +8,14 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import { Typography, Grid, Button } from '@mui/material';
-import EditIcon from '@mui/icons-material/Edit';
+import ModeEditOutlineIcon from '@mui/icons-material/ModeEditOutline';
+import DeleteIcon from '@mui/icons-material/Delete';
 
 
 function TotalCaloriesFoods (props) {
 
-    const { foodsEaten, updateFoodsEaten} = useContext(FoodsEatenContext);
+    const { foodsEaten, updateFoods} = useContext(FoodsEatenContext);
 
-    //may be redundant but come back and remove if need be later
     function createData(listOfFoods) {
         //takes list of foods and cals and places them in rows for the table
 
@@ -24,17 +24,46 @@ function TotalCaloriesFoods (props) {
         const foodsAndCals = [];
         listOfFoods.forEach(food => {
             const { name, calories } = food;
-            foodsAndCals.push({name, calories})
+            foodsAndCals.push({key: Math.floor(Math.random() * 10000), name, calories})
         })
         return foodsAndCals;
     }
 
-    const rows = createData(foodsEaten);
+    const [rows, updateRows] = useState(createData(foodsEaten));
 
     const editData = (item) => {
-        console.log('the full item', item.name)
+        console.log('the full item', item.name, item.key)
     }
 
+    const deleteData = (item) => {
+        
+        const remove = foodsEaten.findIndex(food => {
+            return food.name === item.name
+        })
+
+        foodsEaten.splice(remove, 1)
+
+        const newFoods = foodsEaten
+        updateFoods(newFoods);
+        updateRows(createData(foodsEaten))
+        
+        //assumed use effect in app component would update total cals after update foods was called, but next lines execute it -
+        let sumOfCals = 0;
+            newFoods.forEach(food => {
+                sumOfCals += food.calories
+            })
+        props.updateTotalCals(sumOfCals)
+    }
+
+    useEffect(() => {
+        updateRows(createData(foodsEaten))
+    }, [foodsEaten])
+
+
+
+    // useEffect(() => {
+    //     updateTotalCals(totalCals);
+    // }, [totalCals, updateTotalCals, foodsEaten])
 
     return (
         <div>
@@ -43,6 +72,7 @@ function TotalCaloriesFoods (props) {
                 Total Calories: {props.totalCals}
             </Typography>
             </div>
+            <div position='absolute'>
             <TableContainer component={Paper}>
         <Table sx={{ minWidth: 550 }} aria-label="simple table" size='medium'>
             <TableHead>
@@ -54,6 +84,7 @@ function TotalCaloriesFoods (props) {
             </TableRow>
             </TableHead>
             <TableBody>
+                
             {rows.map((row) => (
                 <TableRow
                 key={row.name}
@@ -63,18 +94,27 @@ function TotalCaloriesFoods (props) {
                     {row.name}
                 </TableCell>
                 <TableCell align="left">{row.calories}</TableCell>
-                <Button onClick={() => editData(row)} size='small' sx={{ '&:last-child td, &:last-child th': { border: 0 }, position: 'relative' }}>
+                <Button onClick={() => editData(row)} size='small' sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
+                <TableCell align='right'>
+                    <Grid item xs={1} align='right'>
+                        <ModeEditOutlineIcon />
+                    </Grid>
+                </TableCell>
+                </Button>
+                <Button onClick={() => deleteData(row)} size='small' sx={{ '&:last-child td, &:last-child th': { border: 0 }}}>
                 <TableCell align='right'>
                     <Grid item xs={6} align='right'>
-                        <EditIcon />
+                        <DeleteIcon />
                     </Grid>
                 </TableCell>
                 </Button>
                 </TableRow>
             ))}
+            
             </TableBody>
         </Table>
         </TableContainer>
+        </div>
     </div>
     )
 

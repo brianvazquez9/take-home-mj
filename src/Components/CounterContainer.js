@@ -4,10 +4,12 @@ import TotalCaloriesFoods from './TotalCaloriesFoods';
 
 function CounterContainer (props) {
 
+
+
     return (
         <div>
             <UpdateAddMeal />
-            <TotalCaloriesFoods totalCals={props.totalCals}/>
+            <TotalCaloriesFoods totalCals={props.totalCals} updateTotalCals={props.updateTotalCals}/>
         </div>
         
     )
